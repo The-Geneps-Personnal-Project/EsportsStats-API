@@ -1,11 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  constructor(private configService: ConfigService) {}
+  constructor() {}
   getHello(): string {
-    Logger.log(this.configService.get<string>('PORT'));
     return 'Hello World!';
   }
 }
