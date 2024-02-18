@@ -1,5 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 
 import { validate } from 'config/env.validation';
 import configuration from 'config/configuration';
@@ -7,6 +8,9 @@ import configuration from 'config/configuration';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LoggerMiddleware } from 'middleware/logger.middleware';
+
+import { LeaguesSynchroModule } from './leagues/leagues-synchro.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -16,6 +20,9 @@ import { LoggerMiddleware } from 'middleware/logger.middleware';
       load: [configuration],
       validate,
     }),
+    ScheduleModule.forRoot(),
+    MongooseModule.forRoot(process.env.MONGO_URI),
+    LeaguesSynchroModule.register(),
   ],
   controllers: [AppController],
   providers: [AppService],
