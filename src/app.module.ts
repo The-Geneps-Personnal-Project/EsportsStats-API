@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
+import { MongooseModule } from '@nestjs/mongoose';
 
 import { validate } from 'config/env.validation';
 import configuration from 'config/configuration';
@@ -10,7 +11,6 @@ import { AppService } from './app.service';
 import { LoggerMiddleware } from 'middleware/logger.middleware';
 
 import { LeaguesSynchroModule } from './leagues/leagues-synchro.module';
-import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
