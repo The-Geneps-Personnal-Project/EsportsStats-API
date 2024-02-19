@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ILeague } from '../types/league';
+import { ILeague } from '../types/leagues';
 import { HydratedDocument } from 'mongoose';
 
 export type LeagueDocument = HydratedDocument<League>;
