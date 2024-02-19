@@ -23,6 +23,12 @@ export class League implements ILeague {
 
   @Prop({ type: Number, required: false })
   priority?: number;
+
+  @Prop({ type: Date, default: Date.now })
+  createdAt: Date;
+
+  @Prop({ type: Date, default: Date.now })
+  updatedAt: Date;
 }
 
 export const LeagueSchema = SchemaFactory.createForClass(League);
