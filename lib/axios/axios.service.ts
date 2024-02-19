@@ -21,7 +21,7 @@ export class AxiosService {
 
       const response = await axios.get(url, config);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       Logger.error(error.response ? error.response.data : error.message);
       throw error;
     }
