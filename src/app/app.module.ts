@@ -3,8 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { validate } from 'config/env.validation';
-import configuration from 'config/configuration';
+import { validate } from 'src/config/env.validation';
+import configuration from 'src/config/configuration';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';

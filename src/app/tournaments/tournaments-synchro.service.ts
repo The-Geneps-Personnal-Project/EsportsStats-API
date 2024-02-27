@@ -13,7 +13,8 @@ export class TournamentsSynchroService implements OnApplicationBootstrap {
   private readonly logger = new Logger(TournamentsSynchroService.name);
 
   constructor(
-    @InjectModel(Tournament.name) private readonly tournamentModel: Model<Tournament>,
+    @InjectModel(Tournament.name)
+    private readonly tournamentModel: Model<Tournament>,
     private readonly axiosService: AxiosService,
   ) {}
 
@@ -32,7 +33,7 @@ export class TournamentsSynchroService implements OnApplicationBootstrap {
   private async getLeagues() {
     Logger.debug('LeaguesSynchroService is getting leagues');
 
-    const params = { hl: process.env.LOL_ESPORTS_API_HL, leagueId: 'xxx'};
+    const params = { hl: process.env.LOL_ESPORTS_API_HL, leagueId: 'xxx' };
 
     const leagues: ITournaments = await this.axiosService.get(
       'https://esports-api.lolesports.com/persisted/gw/getTournamentsForLeague',
@@ -47,10 +48,15 @@ export class TournamentsSynchroService implements OnApplicationBootstrap {
   private async saveLeagues(tournaments: ITournament[]) {
     this.logger.debug('Saving leagues');
     for (const tournament of tournaments) {
-      const existingTournament: TournamentDto = await this.tournamentModel.findOne({ id: tournament.id }).exec();
+      const existingTournament: TournamentDto = await this.tournamentModel
+        .findOne({ id: tournament.id })
+        .exec();
       if (existingTournament) {
         if (existingTournament.slug !== tournament.slug) {
-          await this.tournamentModel.updateOne({ id: tournament.id }, tournament);
+          await this.tournamentModel.updateOne(
+            { id: tournament.id },
+            tournament,
+          );
           this.logger.debug(`Updated league with ID ${tournament.id}`);
         }
       } else {
