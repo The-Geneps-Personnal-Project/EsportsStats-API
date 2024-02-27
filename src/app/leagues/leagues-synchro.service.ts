@@ -47,7 +47,9 @@ export class LeaguesSynchroService implements OnApplicationBootstrap {
   private async saveLeagues(leagues: ILeague[]) {
     this.logger.debug('Saving leagues');
     for (const league of leagues) {
-      const existingLeague: LeagueDto = await this.leagueModel.findOne({ id: league.id }).exec();
+      const existingLeague: LeagueDto = await this.leagueModel
+        .findOne({ id: league.id })
+        .exec();
       if (existingLeague) {
         if (existingLeague.name !== league.name) {
           await this.leagueModel.updateOne({ id: league.id }, league);

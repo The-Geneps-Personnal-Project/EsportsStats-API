@@ -10,7 +10,9 @@ export class TournamentsSynchroModule {
     return {
       module: TournamentsSynchroModule,
       imports: [
-        MongooseModule.forFeature([{ name: 'League', schema: TournamentSchema }]),
+        MongooseModule.forFeature([
+          { name: 'League', schema: TournamentSchema },
+        ]),
       ],
       providers: [TournamentsSynchroService, AxiosService],
       exports: [],
