@@ -1,7 +1,7 @@
 # compiled output
 /node_modules
 /dist
-/src/coverage
+/coverage
 
 # Logs
 logs
