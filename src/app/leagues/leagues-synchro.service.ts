@@ -30,7 +30,7 @@ export class LeaguesSynchroService implements OnApplicationBootstrap {
   }
 
   private async getLeagues() {
-    Logger.debug('LeaguesSynchroService is getting leagues');
+    this.logger.debug('LeaguesSynchroService is getting leagues');
 
     const params = { hl: process.env.LOL_ESPORTS_API_HL };
 
@@ -40,7 +40,7 @@ export class LeaguesSynchroService implements OnApplicationBootstrap {
       params,
     );
 
-    Logger.debug('LeaguesSynchroService has got leagues');
+    this.logger.debug('LeaguesSynchroService has got leagues');
     return leagues.data.leagues;
   }
 
