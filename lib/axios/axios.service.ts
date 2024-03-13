@@ -1,11 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
-import axios from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { ParamsType } from './type';
 
 @Injectable()
 export class AxiosService {
-  async get(url: string, apiKey?: string, params?: Object): Promise<any> {
+  async get<T, P>(
+    url: string,
+    apiKey?: string,
+    params?: ParamsType<P>,
+  ): Promise<T> {
     try {
-      const config: any = {
+      const config: AxiosRequestConfig = {
         headers: {},
         params: params || {},
       };
@@ -19,10 +24,18 @@ export class AxiosService {
         `AxiosService is getting with config: ${JSON.stringify(config)}`,
       );
 
-      const response = await axios.get(url, config);
+      const response: AxiosResponse<T> = await axios.get(url, config);
       return response.data;
-    } catch (error: any) {
-      Logger.error(error.response ? error.response.data : error.message);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        Logger.error(
+          `AxiosService has got an error: ${axiosError.message}`,
+          axiosError.stack,
+        );
+        throw axiosError;
+      }
+      Logger.error(`AxiosService has got an error: ${error}`);
       throw error;
     }
   }
