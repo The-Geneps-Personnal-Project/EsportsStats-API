@@ -1,52 +1,63 @@
-import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { SchedulerRegistry } from '@nestjs/schedule';
+import { ConfigService } from '@nestjs/config';
 
 import { Model } from 'mongoose';
+import { hoursToMilliseconds } from 'date-fns';
+
 import { Tournament } from './schemas/tournament.schema';
 import { AxiosService } from 'lib/axios/axios.service';
 import { TournamentDto } from './dto/tournament.dto';
 import { ITournament, ITournaments } from './types/tournaments';
 
 @Injectable()
-export class TournamentsSynchroService implements OnApplicationBootstrap {
+export class TournamentsSynchroService implements OnModuleInit {
   private readonly logger = new Logger(TournamentsSynchroService.name);
 
   constructor(
     @InjectModel(Tournament.name)
     private readonly tournamentModel: Model<Tournament>,
     private readonly axiosService: AxiosService,
+    private readonly schedulerRegistry: SchedulerRegistry,
+    private readonly configService: ConfigService,
   ) {}
 
-  onApplicationBootstrap() {
-    this.logger.debug('LeaguesSynchroService is ready');
+  onModuleInit() {
+    this.logger.debug('TournamentsSynchroService is ready');
+    const frequency = hoursToMilliseconds(
+      this.configService.get<number>('tournaments.frequency'),
+    );
     this.start();
+    const interval = setInterval(() => {
+      this.start();
+    }, frequency);
+    this.schedulerRegistry.addInterval('sync-tournaments', interval);
   }
 
-  @Cron(CronExpression.EVERY_5_MINUTES)
   private async start() {
-    this.logger.debug('LeaguesSynchroService is running');
-    const leagues = await this.getLeagues();
-    await this.saveLeagues(leagues);
+    this.logger.debug('TournamentsSynchroService is running');
+    const tournaments = await this.getTournaments();
+    await this.saveTournaments(tournaments);
   }
 
-  private async getLeagues() {
-    Logger.debug('LeaguesSynchroService is getting leagues');
+  private async getTournaments() {
+    this.logger.debug('TournamentsSynchroService is getting tournaments');
 
-    const params = { hl: process.env.LOL_ESPORTS_API_HL, leagueId: 'xxx' };
+    const params = { hl: 'en-US', leagueId: 'xxx' };
 
-    const leagues: ITournaments = await this.axiosService.get(
+    const tournaments: ITournaments = await this.axiosService.get(
       'https://esports-api.lolesports.com/persisted/gw/getTournamentsForLeague',
-      process.env.LOL_ESPORTS_API_KEY,
+      this.configService.get<string>('LOL_ESPORTS_API_KEY'),
       params,
     );
 
-    Logger.debug('LeaguesSynchroService has got leagues');
-    return leagues.data.leagues.tournaments;
+    this.logger.debug('TournamentsSynchroService has got tournaments');
+    return tournaments.data.leagues.tournaments;
   }
 
-  private async saveLeagues(tournaments: ITournament[]) {
-    this.logger.debug('Saving leagues');
+  private async saveTournaments(tournaments: ITournament[]) {
+    this.logger.debug('Start tournaments data treatment');
     for (const tournament of tournaments) {
       const existingTournament: TournamentDto = await this.tournamentModel
         .findOne({ id: tournament.id })
@@ -57,12 +68,13 @@ export class TournamentsSynchroService implements OnApplicationBootstrap {
             { id: tournament.id },
             tournament,
           );
-          this.logger.debug(`Updated league with ID ${tournament.id}`);
+          this.logger.debug(`Updated tournament with ID ${tournament.id}`);
         }
       } else {
         await this.tournamentModel.create(tournament);
-        this.logger.debug(`Created league with ID ${tournament.id}`);
+        this.logger.debug(`Created tournament with ID ${tournament.id}`);
       }
     }
+    this.logger.debug('End tournaments data treatment');
   }
 }
