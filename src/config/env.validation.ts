@@ -1,7 +1,12 @@
 import { plainToInstance } from 'class-transformer';
-import { IsEnum, IsNumber, validateSync } from '@nestjs/class-validator';
+import {
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+  validateSync,
+} from '@nestjs/class-validator';
 import { Logger } from '@nestjs/common';
-import { IsString } from 'class-validator';
 
 enum Environment {
   Development = 'development',
@@ -15,6 +20,7 @@ class EnvironmentVariables {
   NODE_ENV: Environment;
 
   @IsNumber()
+  @IsOptional()
   PORT: number;
 
   @IsString()
@@ -22,6 +28,14 @@ class EnvironmentVariables {
 
   @IsString()
   LOL_ESPORTS_API_KEY: string;
+
+  @IsNumber()
+  @IsOptional()
+  LEAGUES_FREQUENCY: number;
+
+  @IsNumber()
+  @IsOptional()
+  TOURNAMENTS_FREQUENCY: number;
 }
 
 export function validate(config: Record<string, unknown>) {
