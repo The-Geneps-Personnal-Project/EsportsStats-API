@@ -19,6 +19,7 @@ import { LeaguesSynchroModule } from './leagues/leagues-synchro.module';
       cache: true,
       load: [configuration],
       validate,
+      isGlobal: true,
     }),
     ScheduleModule.forRoot(),
     MongooseModule.forRoot(process.env.MONGO_URI),
