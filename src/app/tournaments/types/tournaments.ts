@@ -1,14 +1,17 @@
 export interface ITournaments {
-    data: {
-        leagues: {
-            tournaments: ITournament[];
-        };
-    };
+  data: {
+    leagues: [
+      {
+        tournaments: ITournament[];
+      },
+    ];
+  };
 }
 
 export interface ITournament {
-    id: string,
-    slug: string,
-    startDate: string,
-    endDate: string,
+  id: string;
+  slug: string;
+  leagueId: string;
+  startDate: string;
+  endDate: string;
 }

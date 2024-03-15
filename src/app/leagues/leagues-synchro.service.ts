@@ -1,4 +1,4 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ConfigService } from '@nestjs/config';
 import { SchedulerRegistry } from '@nestjs/schedule';
@@ -12,7 +12,7 @@ import { LeagueDto } from './dto/league.dto';
 import { ILeagues, ILeague } from './types/leagues';
 
 @Injectable()
-export class LeaguesSynchroService implements OnModuleInit {
+export class LeaguesSynchroService implements OnApplicationBootstrap {
   private readonly logger = new Logger(LeaguesSynchroService.name);
 
   constructor(
@@ -22,7 +22,7 @@ export class LeaguesSynchroService implements OnModuleInit {
     private readonly schedulerRegistry: SchedulerRegistry,
   ) {}
 
-  onModuleInit() {
+  onApplicationBootstrap() {
     this.logger.debug('LeaguesSynchroService is ready');
     const frequency = hoursToMilliseconds(
       this.configService.get<number>('leagues.frequency'),
@@ -36,8 +36,12 @@ export class LeaguesSynchroService implements OnModuleInit {
 
   private async start() {
     this.logger.debug('LeaguesSynchroService is running');
-    const leagues = await this.getLeagues();
-    await this.saveLeagues(leagues);
+    try {
+      const leagues = await this.getLeagues();
+      await this.saveLeagues(leagues);
+    } catch (error) {
+      this.logger.error('Error while synchronizing leagues', error);
+    }
   }
 
   private async getLeagues() {
