@@ -1,4 +1,4 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { ConfigService } from '@nestjs/config';
@@ -6,13 +6,15 @@ import { ConfigService } from '@nestjs/config';
 import { Model } from 'mongoose';
 import { hoursToMilliseconds } from 'date-fns';
 
-import { Tournament } from './schemas/tournament.schema';
+import { LeaguesService } from '../leagues/leagues.service';
 import { AxiosService } from 'lib/axios/axios.service';
+
+import { Tournament } from './schemas/tournament.schema';
 import { TournamentDto } from './dto/tournament.dto';
 import { ITournament, ITournaments } from './types/tournaments';
 
 @Injectable()
-export class TournamentsSynchroService implements OnModuleInit {
+export class TournamentsSynchroService implements OnApplicationBootstrap {
   private readonly logger = new Logger(TournamentsSynchroService.name);
 
   constructor(
@@ -21,9 +23,10 @@ export class TournamentsSynchroService implements OnModuleInit {
     private readonly axiosService: AxiosService,
     private readonly schedulerRegistry: SchedulerRegistry,
     private readonly configService: ConfigService,
+    private readonly LeaguesService: LeaguesService,
   ) {}
 
-  onModuleInit() {
+  onApplicationBootstrap() {
     this.logger.debug('TournamentsSynchroService is ready');
     const frequency = hoursToMilliseconds(
       this.configService.get<number>('tournaments.frequency'),
@@ -37,27 +40,61 @@ export class TournamentsSynchroService implements OnModuleInit {
 
   private async start() {
     this.logger.debug('TournamentsSynchroService is running');
-    const tournaments = await this.getTournaments();
-    await this.saveTournaments(tournaments);
+    try {
+      const tournaments = await this.getTournaments();
+      await this.saveTournaments(tournaments);
+    } catch (error) {
+      this.logger.error('Error while synchronizing tournaments', error);
+    }
+  }
+
+  private async assignLeagueIdToTournaments(
+    tournaments: ITournament[],
+    id: string,
+  ) {
+    return tournaments.map((tournament) => {
+      return { ...tournament, leagueId: id };
+    });
   }
 
   private async getTournaments() {
     this.logger.debug('TournamentsSynchroService is getting tournaments');
 
-    const params = { hl: 'en-US', leagueId: 'xxx' };
+    const leagues = await this.LeaguesService.findAll();
+    console.log(leagues);
+    if (!leagues) {
+      this.logger.warn('No Leagues found');
+      return;
+    }
 
-    const tournaments: ITournaments = await this.axiosService.get(
-      'https://esports-api.lolesports.com/persisted/gw/getTournamentsForLeague',
-      this.configService.get<string>('LOL_ESPORTS_API_KEY'),
-      params,
-    );
+    const tournamentsList = leagues.map(async (league) => {
+      const params = { hl: 'en-US', leagueId: league.id };
 
+      const tournaments: ITournaments = await this.axiosService.get(
+        'https://esports-api.lolesports.com/persisted/gw/getTournamentsForLeague',
+        this.configService.get<string>('LOL_ESPORTS_API_KEY'),
+        params,
+      );
+      const tournamentsData = this.assignLeagueIdToTournaments(
+        tournaments.data.leagues[0].tournaments,
+        league.id,
+      );
+      return tournamentsData;
+    });
+
+    const tournamentsData = await Promise.all(tournamentsList);
     this.logger.debug('TournamentsSynchroService has got tournaments');
-    return tournaments.data.leagues.tournaments;
+    return tournamentsData.flat();
   }
 
   private async saveTournaments(tournaments: ITournament[]) {
     this.logger.debug('Start tournaments data treatment');
+
+    if (!tournaments) {
+      this.logger.warn('No Tournaments found');
+      return;
+    }
+
     for (const tournament of tournaments) {
       const existingTournament: TournamentDto = await this.tournamentModel
         .findOne({ id: tournament.id })
@@ -65,7 +102,9 @@ export class TournamentsSynchroService implements OnModuleInit {
       if (existingTournament) {
         if (existingTournament.slug !== tournament.slug) {
           await this.tournamentModel.updateOne(
-            { id: tournament.id },
+            {
+              id: tournament.id,
+            },
             tournament,
           );
           this.logger.debug(`Updated tournament with ID ${tournament.id}`);
