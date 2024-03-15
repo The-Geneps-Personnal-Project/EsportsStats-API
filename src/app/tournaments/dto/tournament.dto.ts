@@ -21,6 +21,10 @@ export class TournamentDto implements ITournament {
   endDate: string;
 
   @ApiProperty()
+  @IsString()
+  leagueId: string;
+
+  @ApiProperty()
   @IsDate()
   createdAt: Date;
 
