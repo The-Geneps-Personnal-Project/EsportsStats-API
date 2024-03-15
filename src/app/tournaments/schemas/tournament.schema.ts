@@ -18,10 +18,13 @@ export class Tournament implements ITournament {
   @Prop({ type: String, required: true })
   endDate: string;
 
-  @Prop({ type: Date, required: true })
+  @Prop({ type: String, required: true })
+  leagueId: string;
+
+  @Prop({ type: Date, default: Date.now })
   createdAt: Date;
 
-  @Prop({ type: Date, required: true })
+  @Prop({ type: Date, default: Date.now })
   updatedAt: Date;
 }
 
