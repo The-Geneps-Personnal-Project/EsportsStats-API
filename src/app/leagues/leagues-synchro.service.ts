@@ -6,8 +6,9 @@ import { SchedulerRegistry } from '@nestjs/schedule';
 import { Model } from 'mongoose';
 import { hoursToMilliseconds } from 'date-fns';
 
+import { AxiosService } from '../../../lib/axios/axios.service';
+
 import { League } from './schemas/league.schema';
-import { AxiosService } from 'lib/axios/axios.service';
 import { LeagueDto } from './dto/league.dto';
 import { ILeagues, ILeague } from './types/leagues';
 

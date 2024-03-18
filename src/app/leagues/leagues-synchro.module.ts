@@ -2,9 +2,10 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { LeaguesSynchroService } from './leagues-synchro.service';
-import { LeagueSchema } from './schemas/league.schema';
-import { AxiosService } from 'lib/axios/axios.service';
 import { LeaguesService } from './leagues.service';
+import { AxiosService } from '../../../lib/axios/axios.service';
+
+import { LeagueSchema } from './schemas/league.schema';
 
 @Module({})
 export class LeaguesSynchroModule {
