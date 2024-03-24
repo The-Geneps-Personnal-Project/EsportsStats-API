@@ -10,8 +10,11 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Copy the build output to the working directory
-COPY dist/ ./
+# Copy the source code to the working directory
+COPY . .
+
+# Build the application
+RUN npm run build
 
 # Expose the port that your NestJS app will run on
 EXPOSE 3000
