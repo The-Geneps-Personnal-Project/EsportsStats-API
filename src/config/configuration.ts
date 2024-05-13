@@ -11,4 +11,7 @@ export default () => ({
   tournaments: {
     frequency: process.env.TOURNAMENTS_FREQUENCY || 24,
   },
+  schedule: {
+    frequency: process.env.SCHEDULE_FREQUENCY || 60,
+  },
 });
