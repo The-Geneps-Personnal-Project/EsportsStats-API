@@ -1,3 +1,5 @@
+import { Date } from 'mongoose';
+
 export interface ISchedule {
   data: {
     schedule: IScheduleItem[];
