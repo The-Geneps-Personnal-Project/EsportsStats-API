@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-import { IScheduleLeague } from '../types/schedule';
+import { IScheduleLeague, IScheduleMatch } from '../types/schedule';
 import { Date, HydratedDocument } from 'mongoose';
 
 export type ScheduleEventDocument = HydratedDocument<ScheduleEvent>;
@@ -22,8 +22,8 @@ export class ScheduleEvent {
   @Prop({ type: Object, required: true })
   league: IScheduleLeague;
 
-  @Prop({ type: String, required: true })
-  matchId: string;
+  @Prop({ type: Object, required: true })
+  match: IScheduleMatch;
 
   @Prop({ type: Date, default: Date.now })
   createdAt: Date;
