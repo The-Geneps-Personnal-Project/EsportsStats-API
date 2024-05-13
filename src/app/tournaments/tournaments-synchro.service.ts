@@ -61,7 +61,6 @@ export class TournamentsSynchroService implements OnApplicationBootstrap {
     this.logger.debug('TournamentsSynchroService is getting tournaments');
 
     const leagues = await this.LeaguesService.findAll();
-    console.log(leagues);
     if (!leagues) {
       this.logger.warn('No Leagues found');
       return;
