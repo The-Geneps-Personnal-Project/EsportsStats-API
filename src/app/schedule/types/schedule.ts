@@ -2,12 +2,12 @@ import { Date } from 'mongoose';
 
 export interface ISchedule {
   data: {
-    schedule: IScheduleItem[];
+    schedule: IScheduleItem;
   };
 }
 
 export interface IScheduleItem {
-  page?: {
+  pages?: {
     older?: string;
     newer?: string;
   };
