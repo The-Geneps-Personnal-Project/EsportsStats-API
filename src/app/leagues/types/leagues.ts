@@ -12,4 +12,3 @@ export interface ILeague {
   image: string;
   priority?: number;
 }
-

@@ -12,6 +12,7 @@ import { LoggerMiddleware } from 'middleware/logger.middleware';
 
 import { LeaguesSynchroModule } from './leagues/leagues-synchro.module';
 import { TournamentsSynchroModule } from './tournaments/tournaments-synchro.module';
+import { ScheduleSynchroModule } from './schedule/schedule-synchro.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TournamentsSynchroModule } from './tournaments/tournaments-synchro.modu
     MongooseModule.forRoot(process.env.MONGO_URI),
     LeaguesSynchroModule.register(),
     TournamentsSynchroModule.register(),
+    ScheduleSynchroModule.register(),
   ],
   controllers: [AppController],
   providers: [AppService],

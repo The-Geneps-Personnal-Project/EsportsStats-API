@@ -36,6 +36,10 @@ class EnvironmentVariables {
   @IsNumber()
   @IsOptional()
   TOURNAMENTS_FREQUENCY: number;
+
+  @IsNumber()
+  @IsOptional()
+  SCHEDULE_FREQUENCY: number;
 }
 
 export function validate(config: Record<string, unknown>) {
