@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   nestjs-app:
     container_name: nestjs_app
