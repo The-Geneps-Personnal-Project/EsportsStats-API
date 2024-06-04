@@ -14,4 +14,7 @@ export default () => ({
   schedule: {
     frequency: process.env.SCHEDULE_FREQUENCY || 60,
   },
+  teams: {
+    frequency: process.env.TEAMS_FREQUENCY || 24,
+  },
 });
