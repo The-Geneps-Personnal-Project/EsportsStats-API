@@ -17,4 +17,7 @@ export default () => ({
   teams: {
     frequency: process.env.TEAMS_FREQUENCY || 24,
   },
+  live: {
+    frequency: process.env.LIVE_FREQUENCY || 2,
+  },
 });
