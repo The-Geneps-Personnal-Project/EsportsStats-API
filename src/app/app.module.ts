@@ -14,6 +14,7 @@ import { LeaguesSynchroModule } from './leagues/leagues-synchro.module';
 import { TournamentsSynchroModule } from './tournaments/tournaments-synchro.module';
 import { ScheduleSynchroModule } from './schedule/schedule-synchro.module';
 import { TeamsSynchroModule } from './teams/teams-synchro.module';
+import { LiveSynchroModule } from './live/live-synchro.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { TeamsSynchroModule } from './teams/teams-synchro.module';
     TournamentsSynchroModule.register(),
     ScheduleSynchroModule.register(),
     TeamsSynchroModule.register(),
+    LiveSynchroModule.register(),
   ],
   controllers: [AppController],
   providers: [AppService],
