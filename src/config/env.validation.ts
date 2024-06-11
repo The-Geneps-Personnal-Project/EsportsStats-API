@@ -8,7 +8,7 @@ import {
 } from '@nestjs/class-validator';
 import { Logger } from '@nestjs/common';
 
-enum Environment {
+export enum Environment {
   Development = 'development',
   Production = 'production',
   Test = 'test',
