@@ -7,7 +7,7 @@ import { Model } from 'mongoose';
 import { hoursToMilliseconds } from 'date-fns';
 
 import { LeaguesService } from '../leagues/leagues.service';
-import { AxiosService } from '../../../lib/axios/axios.service';
+import { AxiosService } from '../../lib/axios/axios.service';
 
 import { Tournament } from './schemas/tournament.schema';
 import { TournamentDto } from './dto/tournament.dto';

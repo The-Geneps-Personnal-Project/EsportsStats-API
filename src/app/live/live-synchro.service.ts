@@ -6,7 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { minutesToMilliseconds } from 'date-fns';
 import { Model } from 'mongoose';
 
-import { AxiosService } from '../../../lib/axios/axios.service';
+import { AxiosService } from '../../lib/axios/axios.service';
 import { ILive, ILives } from './types/live';
 import { Live } from './schemas/live.schema';
 import { LiveDto } from './dto/live.dto';
