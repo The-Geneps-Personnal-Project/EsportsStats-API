@@ -4,7 +4,7 @@ import { SchedulerRegistry } from '@nestjs/schedule';
 import { getModelToken } from '@nestjs/mongoose';
 
 import { TeamsSynchroService } from './teams-synchro.service';
-import { AxiosService } from '../../../lib/axios/axios.service';
+import { AxiosService } from '../../lib/axios/axios.service';
 
 describe('TeamsSynchroService', () => {
   let service: TeamsSynchroService;
