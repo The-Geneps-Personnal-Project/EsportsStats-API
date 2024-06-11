@@ -4,7 +4,7 @@ import { SchedulerRegistry } from '@nestjs/schedule';
 import { getModelToken } from '@nestjs/mongoose';
 
 import { LiveSynchroService } from './live-synchro.service';
-import { AxiosService } from '../../../lib/axios/axios.service';
+import { AxiosService } from '../../lib/axios/axios.service';
 
 describe('LiveSynchroService', () => {
   let service: LiveSynchroService;
