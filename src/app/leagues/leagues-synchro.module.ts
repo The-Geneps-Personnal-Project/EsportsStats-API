@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { LeaguesSynchroService } from './leagues-synchro.service';
 import { LeaguesService } from './leagues.service';
-import { AxiosService } from '../../../lib/axios/axios.service';
+import { AxiosService } from '../../lib/axios/axios.service';
 
 import { LeagueSchema } from './schemas/league.schema';
 
