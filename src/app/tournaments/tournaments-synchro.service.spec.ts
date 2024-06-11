@@ -5,7 +5,7 @@ import { getModelToken } from '@nestjs/mongoose';
 
 import { TournamentsSynchroService } from './tournaments-synchro.service';
 import { LeaguesService } from '../leagues/leagues.service';
-import { AxiosService } from '../../../lib/axios/axios.service';
+import { AxiosService } from '../../lib/axios/axios.service';
 
 describe('LeaguesSynchroService', () => {
   let service: TournamentsSynchroService;

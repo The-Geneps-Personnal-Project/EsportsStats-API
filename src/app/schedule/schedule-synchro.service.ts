@@ -6,7 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { minutesToMilliseconds } from 'date-fns';
 
-import { AxiosService } from '../../../lib/axios/axios.service';
+import { AxiosService } from '../../lib/axios/axios.service';
 import { LeaguesService } from '../leagues/leagues.service';
 import { ISchedule, IScheduleItem } from './types/schedule';
 import { ScheduleEvent } from './schema/scheduleEvent.schema';
