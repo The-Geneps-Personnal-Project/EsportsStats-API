@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 import { IPlayer, ITeam } from '../types/teams';
 
-export type TeamsDocument = HydratedDocument<Team>;
+export type TeamDocument = HydratedDocument<Team>;
 
 @Schema()
 export class Team implements ITeam {
