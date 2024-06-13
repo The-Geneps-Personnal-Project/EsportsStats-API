@@ -9,7 +9,7 @@ import { minutesToMilliseconds } from 'date-fns';
 import { AxiosService } from '../../lib/axios/axios.service';
 import { LeaguesService } from '../leagues/leagues.service';
 import { ISchedule, IScheduleItem } from './types/schedule';
-import { ScheduleEvent } from './schema/scheduleEvent.schema';
+import { ScheduleEvent } from './schemas/scheduleEvent.schema';
 
 @Injectable()
 export class ScheduleSynchroService implements OnApplicationBootstrap {

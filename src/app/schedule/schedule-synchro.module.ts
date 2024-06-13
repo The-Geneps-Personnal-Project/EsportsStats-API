@@ -6,7 +6,7 @@ import { AxiosService } from '../../lib/axios/axios.service';
 import { LeaguesService } from '../leagues/leagues.service';
 
 import { LeagueSchema } from '../leagues/schemas/league.schema';
-import { ScheduleEventSchema } from './schema/scheduleEvent.schema';
+import { ScheduleEventSchema } from './schemas/scheduleEvent.schema';
 
 @Module({})
 export class ScheduleSynchroModule {
