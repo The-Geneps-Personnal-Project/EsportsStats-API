@@ -3,21 +3,21 @@ import { ConfigService } from '@nestjs/config';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { getModelToken } from '@nestjs/mongoose';
 
-import { LiveSynchroService } from './live-synchro.service';
-import { AxiosService } from '../../lib/axios/axios.service';
+import { LeaguesSynchroService } from '../leagues-synchro.service';
+import { AxiosService } from '../../../lib/axios/axios.service';
 
-describe('LiveSynchroService', () => {
-  let service: LiveSynchroService;
+describe('LeaguesSynchroService', () => {
+  let service: LeaguesSynchroService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        LiveSynchroService,
+        LeaguesSynchroService,
         AxiosService,
         ConfigService,
         SchedulerRegistry,
         {
-          provide: getModelToken('Live'),
+          provide: getModelToken('League'),
           useValue: {
             updateOne: jest.fn(),
             findOne: jest.fn(),
@@ -27,7 +27,7 @@ describe('LiveSynchroService', () => {
       ],
     }).compile();
 
-    service = module.get<LiveSynchroService>(LiveSynchroService);
+    service = module.get<LeaguesSynchroService>(LeaguesSynchroService);
   });
 
   it('should be defined', () => {
