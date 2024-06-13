@@ -58,6 +58,10 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Coverage
+
+[![codecov](https://codecov.io/gh/The-Geneps-Personnal-Project/EsportsStats-API/graph/badge.svg?token=7OG6Q1THXL)](https://codecov.io/gh/The-Geneps-Personnal-Project/EsportsStats-API)
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
