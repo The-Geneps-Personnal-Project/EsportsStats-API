@@ -66,8 +66,7 @@ export class TeamsSynchroService implements OnApplicationBootstrap {
         await this.teamModel.updateOne({ id: team.id }, team);
         this.logger.debug(`TeamsSynchroService has updated team ${team.id}`);
       } else {
-        const newTeam = new this.teamModel(team);
-        await newTeam.save();
+        await this.teamModel.create(team);
         this.logger.debug(`TeamsSynchroService has saved team ${team.id}`);
       }
     }
