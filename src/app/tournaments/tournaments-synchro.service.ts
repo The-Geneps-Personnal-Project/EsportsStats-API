@@ -48,10 +48,7 @@ export class TournamentsSynchroService implements OnApplicationBootstrap {
     }
   }
 
-  private async assignLeagueIdToTournaments(
-    tournaments: ITournament[],
-    id: string,
-  ) {
+  private assignLeagueIdToTournaments(tournaments: ITournament[], id: string) {
     return tournaments.map((tournament) => {
       return { ...tournament, leagueId: id };
     });
