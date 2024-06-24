@@ -103,7 +103,7 @@ export class ScheduleSynchroService implements OnApplicationBootstrap {
     this.logger.debug('ScheduleSynchroService is getting schedule');
     let schedule: IScheduleItem[] = [];
     const leagues = await this.leagueService.findAll();
-    if (!leagues) {
+    if (!leagues || leagues.length === 0) {
       this.logger.warn('No leagues found');
       return;
     }
@@ -143,8 +143,7 @@ export class ScheduleSynchroService implements OnApplicationBootstrap {
             );
           }
         } else {
-          const newEvent = new this.scheduleEventModel(event);
-          await newEvent.save();
+          await this.scheduleEventModel.create(event);
         }
       }
     }
