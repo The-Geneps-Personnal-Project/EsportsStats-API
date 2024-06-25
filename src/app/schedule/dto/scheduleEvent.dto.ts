@@ -1,4 +1,4 @@
-import { IsString, IsDate } from '@nestjs/class-validator';
+import { IsString, IsDate, IsObject } from '@nestjs/class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { Date } from 'mongoose';
@@ -27,10 +27,10 @@ export class scheduleEventDto implements IScheduleEvent {
   blockName: string;
 
   @ApiProperty()
-  @IsString()
+  @IsObject()
   league: IScheduleLeague;
 
   @ApiProperty()
-  @IsString()
+  @IsObject()
   match: IScheduleMatch;
 }
