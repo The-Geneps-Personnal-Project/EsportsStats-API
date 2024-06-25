@@ -43,10 +43,10 @@ export class LiveDto implements ILive {
   stream: [ILiveStream];
 
   @ApiProperty()
-  @IsString()
+  @IsDate()
   createdAt: Date;
 
   @ApiProperty()
-  @IsString()
+  @IsDate()
   updatedAt: Date;
 }
