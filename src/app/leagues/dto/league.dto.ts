@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsNumber, IsString } from '@nestjs/class-validator';
+import {
+  IsDate,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from '@nestjs/class-validator';
 
 import { ILeague } from '../types/leagues';
 
@@ -26,6 +31,7 @@ export class LeagueDto implements ILeague {
 
   @ApiProperty()
   @IsNumber()
+  @IsOptional()
   priority?: number;
 
   @ApiProperty()
