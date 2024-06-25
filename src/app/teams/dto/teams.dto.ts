@@ -1,4 +1,4 @@
-import { IsString, IsObject } from '@nestjs/class-validator';
+import { IsString, IsObject, IsArray } from '@nestjs/class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { IPlayer, ITeam } from '../types/teams';
@@ -44,6 +44,6 @@ export class TeamDto implements ITeam {
   };
 
   @ApiProperty()
-  @IsObject()
+  @IsArray()
   players: IPlayer[];
 }
